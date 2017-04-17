@@ -1,0 +1,18 @@
+{
+    "name": "yeesoft/yii2-yee-dashboard",
+    "description": "Dashboard Module For YeeCMS",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Taras Makitra"
+        }
+    ],
+    "require": {
+        "yeesoft/yii2-yee-core": "~0.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "yeesoft\\dashboard\\": ""
+        }
+    }
+}
