@@ -23,6 +23,14 @@ class DashboardModule extends \yii\base\Module
      */
     const VERSION = '0.2.0';
 
+    /**
+     * @inheritdoc
+     */
     public $controllerNamespace = 'yeesoft\dashboard\controllers';
+
+    /**
+     * @var array 
+     */
+    public $widgets;
 
 }
