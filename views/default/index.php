@@ -7,13 +7,13 @@ $this->params['description'] = 'YeeCMS 0.2.0';
 $this->params['header-content'] = $this->render('actions');
 
 $widgets = [
-        ['row' => 0, 'column' => 0, 'order' => 1, 'title' => 'Posts', 'state' => '0'],
-        ['row' => 0, 'column' => 0, 'order' => 2, 'title' => 'Pages', 'state' => '0'],
-        ['row' => 0, 'column' => 1, 'order' => 1, 'title' => 'Comments', 'state' => '0'],
-        ['row' => 1, 'column' => 0, 'order' => 1, 'title' => 'Users', 'state' => '0'],
-        ['row' => 1, 'column' => 1, 'order' => 1, 'title' => 'Activity', 'state' => '1'],
-        ['row' => 0, 'column' => 0, 'order' => 1, 'title' => 'Likes', 'state' => '1'],
-        ['row' => 1, 'column' => 1, 'order' => 2, 'title' => 'Sales', 'state' => '1'],
+        ['row' => 0, 'column' => 0, 'order' => 1, 'title' => 'Posts', 'collapsed' => false],
+        ['row' => 0, 'column' => 0, 'order' => 2, 'title' => 'Pages', 'collapsed' => false],
+        ['row' => 0, 'column' => 1, 'order' => 1, 'title' => 'Comments', 'collapsed' => true],
+        ['row' => 1, 'column' => 0, 'order' => 1, 'title' => 'Users', 'collapsed' => false],
+        ['row' => 1, 'column' => 1, 'order' => 1, 'title' => 'Activity', 'collapsed' => false],
+        ['row' => 0, 'column' => 0, 'order' => 1, 'title' => 'Likes', 'collapsed' => true],
+        ['row' => 1, 'column' => 1, 'order' => 2, 'title' => 'Sales', 'collapsed' => false],
 ];
 
 //echo '<pre>';
