@@ -1,1 +1,2 @@
-<?= \yeesoft\post\widgets\dashboard\PostsWidget::widget(['title' => $widget['title'], 'collapsed' => $widget['collapsed']]) ?>
+<?php $widgetClass = $widget['class'] ?>
+<?= $widgetClass::widget(['collapsed' => $widget['collapsed']]) ?>

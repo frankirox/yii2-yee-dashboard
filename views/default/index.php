@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 
 $this->title = 'Dashboard';
@@ -7,13 +6,13 @@ $this->params['description'] = 'YeeCMS 0.2.0';
 $this->params['header-content'] = $this->render('actions');
 
 $widgets = [
-        ['row' => 0, 'column' => 0, 'order' => 1, 'title' => 'Posts', 'collapsed' => false],
-        ['row' => 0, 'column' => 0, 'order' => 2, 'title' => 'Pages', 'collapsed' => false],
-        ['row' => 0, 'column' => 1, 'order' => 1, 'title' => 'Comments', 'collapsed' => true],
-        ['row' => 1, 'column' => 0, 'order' => 1, 'title' => 'Users', 'collapsed' => false],
-        ['row' => 1, 'column' => 1, 'order' => 1, 'title' => 'Activity', 'collapsed' => false],
-        ['row' => 0, 'column' => 0, 'order' => 1, 'title' => 'Likes', 'collapsed' => true],
-        ['row' => 1, 'column' => 1, 'order' => 2, 'title' => 'Sales', 'collapsed' => false],
+        ['row' => 0, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
+        ['row' => 0, 'column' => 0, 'order' => 2, 'class' => 'yeesoft\comment\widgets\dashboard\CommentWidget', 'collapsed' => false],
+        ['row' => 0, 'column' => 1, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => true],
+        ['row' => 1, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
+        ['row' => 1, 'column' => 1, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
+        ['row' => 0, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => true],
+        ['row' => 1, 'column' => 1, 'order' => 2, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
 ];
 
 //echo '<pre>';
@@ -54,8 +53,10 @@ foreach ($widgets as $widget) {
 //echo '</pre>';
 ?>
 
+<?= $this->render('settings') ?>
+
 <?= $this->render('info-box') ?>
 
 <?php foreach ($layouts[$layoutId] as $key => $value) : ?>
-    <?= $this->render('_parts/row', ['columns' => $value, 'widgets' => $grouped[$key]]) ?>
+    <?= $this->render('row', ['columns' => $value, 'widgets' => $grouped[$key]]) ?>
 <?php endforeach; ?>

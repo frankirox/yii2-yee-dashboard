@@ -8,7 +8,7 @@ use yii\helpers\Html;
     <?php foreach ($columns as $key => $width) : ?>
         <section class="col-lg-<?= $width ?> connectedSortable">
             <?php foreach ($widgets[$key] as $widget) : ?>
-                <?= $this->render('/default/widget', ['widget' => $widget]) ?>
+                <?= $this->render('widget', ['widget' => $widget]) ?>
             <?php endforeach; ?>
         </section>
     <?php endforeach; ?>
