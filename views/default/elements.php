@@ -1,3 +1,7 @@
+<?php
+/* @var $this yii\web\View */
+?>
+
 <!-- Default box -->
 <div class="box">
     <div class="box-header with-border">

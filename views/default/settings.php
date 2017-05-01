@@ -4,10 +4,6 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 
-$this->registerJs('$.fn.bootstrapSwitch.defaults.labelWidth = 0;');
-$this->registerJs('$.fn.bootstrapSwitch.defaults.onColor = "success";');
-$this->registerJs('$("input.switch").bootstrapSwitch();');
-
 $this->registerCss("
 .list-layouts > li {
     float:left; 
@@ -31,39 +27,38 @@ $this->registerCss("
 .list-layouts > li > p {
     font-size: 12px
 }
-
-        ");
+");
 ?>
-<!-- Control Sidebar -->
+
 <aside class="control-sidebar control-sidebar-dark">
-
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-        <li class="active"><a href="#control-sidebar-settings-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-gears"></i></a></li>
-        <li class=""><a href="#control-sidebar-theme-demo-options-tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-language"></i></a></li>
-        <li class=""><a href="#control-sidebar-home-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-dashboard"></i></a></li>
-
+        <li class="active"><a href="#control-sidebar-tab-1" data-toggle="tab" aria-expanded="false"><i class="fa fa-gears"></i></a></li>
+        <li class=""><a href="#control-sidebar-tab-2" data-toggle="tab" aria-expanded="true"><i class="fa fa-language"></i></a></li>
+        <li class=""><a href="#control-sidebar-tab-3" data-toggle="tab" aria-expanded="false"><i class="fa fa-th"></i></a></li>
     </ul>
 
     <div class="tab-content">
 
-        <div class="tab-pane active" id="control-sidebar-settings-tab">
-
+        <div class="tab-pane active" id="control-sidebar-tab-1">
             <form method="post">
                 <h4 class="control-sidebar-heading">General Settings</h4>
 
                 <div class="form-group">
                     <label class="control-sidebar-subheading">
                         Report panel usage
-                        <input type="checkbox" class="pull-right" checked="">
+                        <span class="pull-right">
+                            <input type="checkbox" class="checkbox" checked>
+                        </span>
                     </label>
                     <p>Some information about this general settings option</p>
                 </div>
 
-
                 <div class="form-group">
                     <label class="control-sidebar-subheading">
                         Allow mail redirect
-                        <input type="checkbox" class="pull-right" checked="">
+                        <span class="pull-right">
+                            <input type="checkbox" class="checkbox" checked>
+                        </span>
                     </label>
                     <p>Other sets of options are available</p>
                 </div>
@@ -73,14 +68,18 @@ $this->registerCss("
                 <div class="form-group">
                     <label class="control-sidebar-subheading">
                         Show me as online
-                        <input type="checkbox" class="pull-right" checked="">
+                        <span class="pull-right">
+                            <input type="checkbox" class="checkbox" checked>
+                        </span>
                     </label>
                 </div>
 
                 <div class="form-group">
                     <label class="control-sidebar-subheading">
                         Turn off notifications
-                        <input type="checkbox" class="pull-right">
+                        <span class="pull-right">
+                            <input type="checkbox" class="checkbox" checked>
+                        </span>
                     </label>
                 </div>
 
@@ -134,26 +133,18 @@ $this->registerCss("
                         <p class="text-center no-margin">Purple</p>
                     </li>
                 </ul>
-
-
-
             </form>
         </div>
 
-
-        <div class="tab-pane" id="control-sidebar-theme-demo-options-tab">
+        <div class="tab-pane" id="control-sidebar-tab-2">
             <div>
-
-
-
-
-
+                <h4 class="control-sidebar-heading">Language</h4>
 
             </div>
         </div>
 
 
-        <div class="tab-pane" id="control-sidebar-home-tab">
+        <div class="tab-pane" id="control-sidebar-tab-3">
 
             <h4 class="control-sidebar-heading">Dashboard Widgets</h4>
             <div class="form-group">

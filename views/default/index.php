@@ -3,7 +3,7 @@
 
 $this->title = 'Dashboard';
 $this->params['description'] = 'YeeCMS 0.2.0';
-$this->params['header-content'] = $this->render('actions');
+//$this->params['header-content'] = $this->render('actions');
 
 $widgets = [
         ['row' => 0, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
@@ -53,10 +53,10 @@ foreach ($widgets as $widget) {
 //echo '</pre>';
 ?>
 
-<?= $this->render('settings') ?>
-
 <?= $this->render('info-box') ?>
 
 <?php foreach ($layouts[$layoutId] as $key => $value) : ?>
     <?= $this->render('row', ['columns' => $value, 'widgets' => $grouped[$key]]) ?>
 <?php endforeach; ?>
+
+<?= $this->render('settings') ?>

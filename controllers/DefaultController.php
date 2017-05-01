@@ -24,6 +24,10 @@ class DefaultController extends BaseController
     {
         return $this->render('elements');
     }
+    public function actionElements2()
+    {
+        return $this->render('elements2');
+    }
 
     /**
      * @inheritdoc
