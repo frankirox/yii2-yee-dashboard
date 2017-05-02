@@ -4,30 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 
-$this->registerCss("
-.list-layouts > li {
-    float:left; 
-    width: 33.333333%; 
-    padding: 5px;
-}
+$infoBoxes = Yii::$app->getModule('dashboard')->infoBoxes;
+$selectedInfoBoxes = Yii::$app->getModule('dashboard')->selectedInfoBoxes;
+$showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBoxes'), FILTER_VALIDATE_BOOLEAN);;
 
-.list-layouts > li > a {
-    display: block;
-    cursor: pointer;
-}
-
-.list-layouts > li > a > div > span {
-    display: block; 
-    float: left; 
-    height: 7px; 
-    border: 1px solid #28313d;
-    background: #fefefe;
-}
-
-.list-layouts > li > p {
-    font-size: 12px
-}
-");
 ?>
 
 <aside class="control-sidebar control-sidebar-dark">
@@ -186,53 +166,30 @@ $this->registerCss("
                 <label class="control-sidebar-subheading">
                     Display Info Box
                     <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini" checked="">
+                        <input type="checkbox" name="dashboard.showInfoBoxes" class="switch" data-on-text="YES" data-off-text="NO" data-size="mini" <?= $showInfoBoxes ? 'checked' : '' ?>>
                     </div>
                 </label>
                 <p>Info box blocks display short site statistic. Select blocks to display in the box:</p>
             </div>
 
             <div class="form-group">
-                <label class="control-sidebar-subheading">
-                    Comments 
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Users 
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini" checked="">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Posts 
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini" checked="">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Uploads 
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Likes 
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini" checked="">
-                    </div>
-                </label>
+                <?php foreach ($infoBoxes as $infoBox) : ?>
+                    <?php if ($infoBox::getHasAccess()): ?>
+                        <?php $on = in_array($infoBox, $selectedInfoBoxes) ?>
+                        <label class="control-sidebar-subheading">
+                            <?= $infoBox::getTitle() ?> 
+                            <div class="pull-right">
+                                <input type="checkbox" name="dashboard.infoBox[]" class="switch" data-size="mini" data-widget-id="<?= $infoBox::getWidgetId() ?>" <?= $on ? 'checked' : '' ?> <?= $showInfoBoxes ? '' : 'disabled' ?>>
+                            </div>
+                        </label>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </div>
 
             <h4 class="control-sidebar-heading">Dashboard Layout</h4>
             <ul class="list-unstyled list-layouts clearfix">
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="1" class="clearfix full-opacity-hover <?= ($layoutId == 1) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
@@ -249,7 +206,7 @@ $this->registerCss("
                     <p class="text-center no-margin">Full Width</p>
                 </li>
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="5" class="clearfix full-opacity-hover <?= ($layoutId == 5) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 50%;"></span>
                             <span style="width: 50%;"></span>
@@ -270,7 +227,7 @@ $this->registerCss("
                     <p class="text-center no-margin">Two Columns</p>
                 </li>
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="6" class="clearfix full-opacity-hover <?= ($layoutId == 6) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 33%;"></span>
                             <span style="width: 67%;"></span>
@@ -291,7 +248,7 @@ $this->registerCss("
                     <p class="text-center no-margin">Small Left</p>
                 </li>
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="7" class="clearfix full-opacity-hover <?= ($layoutId == 7) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 67%;"></span>
                             <span style="width: 33%;"></span>
@@ -312,7 +269,7 @@ $this->registerCss("
                     <p class="text-center no-margin">Big Left</p>
                 </li>
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="2" class="clearfix full-opacity-hover <?= ($layoutId == 2) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
@@ -331,7 +288,7 @@ $this->registerCss("
                     <p class="text-center no-margin" style="font-size: 10px">Two Rows Type 1</p>
                 </li>
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="3" class="clearfix full-opacity-hover <?= ($layoutId == 3) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
@@ -350,7 +307,7 @@ $this->registerCss("
                     <p class="text-center no-margin" style="font-size: 10px">Two Rows Type 2</p>
                 </li>
                 <li>
-                    <a data-skin="skin-black" class="clearfix full-opacity-hover">
+                    <a data-layout="4" class="clearfix full-opacity-hover <?= ($layoutId == 4) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
