@@ -1,14 +1,20 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 
+$selectedLayout = Yii::$app->getModule('dashboard')->selectedLayout;
 $infoBoxes = Yii::$app->getModule('dashboard')->infoBoxes;
 $selectedInfoBoxes = Yii::$app->getModule('dashboard')->selectedInfoBoxes;
-$showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBoxes'), FILTER_VALIDATE_BOOLEAN);;
+$showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBoxes'), FILTER_VALIDATE_BOOLEAN);
 
+$widgets = Yii::$app->getModule('dashboard')->widgets;
+$selectedWidgets = ArrayHelper::getColumn(Yii::$app->getModule('dashboard')->selectedWidgets, 'class');
 ?>
+
+
 
 <aside class="control-sidebar control-sidebar-dark">
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -132,33 +138,17 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
             </div>
 
             <div class="form-group">
-                <label class="control-sidebar-subheading">
-                    Pages
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini" checked="true">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Posts
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Comments
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini">
-                    </div>
-                </label>
-
-                <label class="control-sidebar-subheading">
-                    Media
-                    <div class="pull-right">
-                        <input type="checkbox" name="my-checkbox" class="switch" data-size="mini" checked="">
-                    </div>
-                </label>
+                <?php foreach ($widgets as $widget) : ?>
+                    <?php if ($widget::getHasAccess()): ?>
+                        <?php $on = in_array($widget, $selectedWidgets) ?>
+                        <label class="control-sidebar-subheading">
+                            <?= $widget::getTitle() ?> 
+                            <div class="pull-right">
+                                <input type="checkbox" name="dashboard.widget[]" class="switch" data-size="mini" data-widget-id="<?= $widget::getWidgetId() ?>" <?= $on ? 'checked' : '' ?>>
+                            </div>
+                        </label>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </div>
 
             <h4 class="control-sidebar-heading">Info Box Settings</h4>
@@ -189,7 +179,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
             <h4 class="control-sidebar-heading">Dashboard Layout</h4>
             <ul class="list-unstyled list-layouts clearfix">
                 <li>
-                    <a data-layout="1" class="clearfix full-opacity-hover <?= ($layoutId == 1) ? 'active' : '' ?>">
+                    <a data-layout="1" class="clearfix full-opacity-hover <?= ($selectedLayout == 1) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
@@ -206,7 +196,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
                     <p class="text-center no-margin">Full Width</p>
                 </li>
                 <li>
-                    <a data-layout="5" class="clearfix full-opacity-hover <?= ($layoutId == 5) ? 'active' : '' ?>">
+                    <a data-layout="5" class="clearfix full-opacity-hover <?= ($selectedLayout == 5) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 50%;"></span>
                             <span style="width: 50%;"></span>
@@ -227,7 +217,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
                     <p class="text-center no-margin">Two Columns</p>
                 </li>
                 <li>
-                    <a data-layout="6" class="clearfix full-opacity-hover <?= ($layoutId == 6) ? 'active' : '' ?>">
+                    <a data-layout="6" class="clearfix full-opacity-hover <?= ($selectedLayout == 6) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 33%;"></span>
                             <span style="width: 67%;"></span>
@@ -248,7 +238,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
                     <p class="text-center no-margin">Small Left</p>
                 </li>
                 <li>
-                    <a data-layout="7" class="clearfix full-opacity-hover <?= ($layoutId == 7) ? 'active' : '' ?>">
+                    <a data-layout="7" class="clearfix full-opacity-hover <?= ($selectedLayout == 7) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 67%;"></span>
                             <span style="width: 33%;"></span>
@@ -269,7 +259,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
                     <p class="text-center no-margin">Big Left</p>
                 </li>
                 <li>
-                    <a data-layout="2" class="clearfix full-opacity-hover <?= ($layoutId == 2) ? 'active' : '' ?>">
+                    <a data-layout="2" class="clearfix full-opacity-hover <?= ($selectedLayout == 2) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
@@ -288,7 +278,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
                     <p class="text-center no-margin" style="font-size: 10px">Two Rows Type 1</p>
                 </li>
                 <li>
-                    <a data-layout="3" class="clearfix full-opacity-hover <?= ($layoutId == 3) ? 'active' : '' ?>">
+                    <a data-layout="3" class="clearfix full-opacity-hover <?= ($selectedLayout == 3) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>
@@ -307,7 +297,7 @@ $showInfoBoxes = filter_var(Yii::$app->user->settings->get('dashboard.showInfoBo
                     <p class="text-center no-margin" style="font-size: 10px">Two Rows Type 2</p>
                 </li>
                 <li>
-                    <a data-layout="4" class="clearfix full-opacity-hover <?= ($layoutId == 4) ? 'active' : '' ?>">
+                    <a data-layout="4" class="clearfix full-opacity-hover <?= ($selectedLayout == 4) ? 'active' : '' ?>">
                         <div>
                             <span style="width: 100%;"></span>
                         </div>

@@ -3,6 +3,7 @@
 namespace yeesoft\dashboard\controllers;
 
 use Yii;
+use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -35,61 +36,28 @@ class DefaultController extends BaseController
 
     public function actionIndex()
     {
-
+        $layouts = $this->module->layouts;
+        $selectedLayout = $this->module->selectedLayout;
+        $widgets = $this->module->dashboardWidgets;
         $infoBoxes = $this->module->infoBoxes;
         $selectedInfoBoxes = $this->module->selectedInfoBoxes;
-        $layoutId = Yii::$app->user->settings->get('dashboard.layoutId', 1);
 
-        $widgets = [
-            ['row' => 0, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
-            ['row' => 0, 'column' => 0, 'order' => 2, 'class' => 'yeesoft\comment\widgets\dashboard\CommentWidget', 'collapsed' => false],
-            ['row' => 0, 'column' => 1, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => true],
-            ['row' => 1, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
-            ['row' => 1, 'column' => 1, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
-            ['row' => 0, 'column' => 0, 'order' => 1, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => true],
-            ['row' => 1, 'column' => 1, 'order' => 2, 'class' => 'yeesoft\post\widgets\dashboard\PostWidget', 'collapsed' => false],
-        ];
+        return $this->render('index', compact('widgets', 'infoBoxes', 'selectedInfoBoxes', 'layouts', 'selectedLayout'));
+    }
 
-//echo '<pre>';
-//print_r($widgets);
+    public function actionGetWidget()
+    {
+        if ($widgetId = Yii::$app->request->post('widgetId')) {
 
-
-
-        $layouts = [
-            1 => [[12]],
-            2 => [[12], [6, 6]],
-            3 => [[12], [5, 7]],
-            4 => [[12], [7, 5]],
-            5 => [[6, 6]],
-            6 => [[5, 7]],
-            7 => [[7, 5]],
-        ];
-
-        foreach ($widgets as &$w) {
-            if (!isset($layouts[$layoutId][$w['row']])) {
-                $w['row'] = 0;
-            }
-
-            if (!isset($layouts[$layoutId][$w['row']][$w['column']])) {
-                $w['column'] = 0;
+            $widgets = $this->module->widgets;
+            foreach ($widgets as $widget) {
+                if ($widget::getWidgetId() === $widgetId) {
+                    return $this->asJson(['content' => $widget::widget()]);
+                }
             }
         }
-
-//echo '<pre>';
-//print_r($widgets);
-//echo '</pre>';
-
-        $grouped = [];
-        foreach ($widgets as $widget) {
-            $grouped[$widget['row']][$widget['column']][] = $widget;
-        }
-        $widgets = $grouped;
-//echo '<pre>';
-//print_r($grouped);
-//echo '</pre>';
-
-
-        return $this->render('index', compact('widgets', 'infoBoxes', 'selectedInfoBoxes', 'layouts', 'layoutId'));
+        
+        throw new \yii\web\BadRequestHttpException('Invalid Widget Id!');
     }
 
     public function actionGetInfoBox()
@@ -116,6 +84,8 @@ class DefaultController extends BaseController
 
     public function actionGetSetting()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $name = Yii::$app->request->post('name');
         $value = Yii::$app->user->settings->get($name);
 
@@ -124,10 +94,16 @@ class DefaultController extends BaseController
 
     public function actionSetSetting()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $name = Yii::$app->request->post('name');
         $value = Yii::$app->request->post('value');
 
-        return $this->asJson(Yii::$app->user->settings->set($name, $value));
+        if (Yii::$app->user->settings->set($name, $value)) {
+            return $this->asJson(['success' => true]);
+        }
+
+        throw new \yii\web\ServerErrorHttpException('Unexpected Exception');
     }
 
     public function actionElements()

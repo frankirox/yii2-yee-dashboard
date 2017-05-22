@@ -2,9 +2,10 @@
 
 namespace yeesoft\dashboard\widgets;
 
+use yeesoft\helpers\FA;
 use yii\helpers\Html;
 use yii\bootstrap\Widget;
-use yeesoft\helpers\FA;
+use yii\helpers\Inflector;
 
 abstract class DashboardWidget extends Widget
 {
@@ -14,7 +15,7 @@ abstract class DashboardWidget extends Widget
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $options = [
-        'class' => 'box box-primary'
+        'class' => 'box box-primary dashboard-widget'
     ];
     public $headerOptions = [
         'class' => 'box-header with-border'
@@ -25,8 +26,6 @@ abstract class DashboardWidget extends Widget
     public $footerOptions = [
         'class' => 'box-footer no-border clearfix'
     ];
-    public $icon;
-    public $title;
     public $visible = true;
     public $collapsed = false;
     public $collapsedClass = 'collapsed-box';
@@ -49,6 +48,7 @@ abstract class DashboardWidget extends Widget
             $header = $this->renderHeader();
             $body = $this->renderBody();
             $footer = $this->renderFooter();
+            $this->options['data-id'] = $this->widgetId;
             return Html::tag('div', $header . $body . $footer, $this->options);
         }
     }
@@ -65,7 +65,8 @@ abstract class DashboardWidget extends Widget
 
     public function renderHeaderTools()
     {
-        $collapse = Html::button(FA::i(FA::_MINUS), ['data' => ['widget' => 'collapse'], 'type' => 'button', 'class' => 'btn btn-box-tool']);
+        $collapseIcon = ($this->collapsed) ? FA::_CHEVRON_DOWN : FA::_MINUS;
+        $collapse = Html::button(FA::i($collapseIcon), ['data' => ['widget' => 'collapse'], 'type' => 'button', 'class' => 'btn btn-box-tool']);
         $close = Html::button(FA::i(FA::_CLOSE), ['data' => ['widget' => 'remove'], 'type' => 'button', 'class' => 'btn btn-box-tool']);
 
         return Html::tag('div', $collapse . $close, ['class' => 'box-tools pull-right']);
@@ -88,4 +89,17 @@ abstract class DashboardWidget extends Widget
         return Html::tag('div', $this->renderContent(), $this->bodyOptions);
     }
 
+    public function getWidgetId()
+    {
+        return Inflector::slug(str_replace('\\', '-', self::className()));
+    }
+
+    public function getHasAccess()
+    {
+        return true;
+    }
+
+    abstract public function getTitle();
+
+    abstract public function getIcon();
 }

@@ -8,9 +8,9 @@ $this->params['description'] = 'YeeCMS 0.2.0';
 <div id="dashboard">
     <?= $this->render('info-box', ['infoBoxes' => $selectedInfoBoxes]) ?>
 
-    <?php foreach ($layouts[$layoutId] as $key => $value) : ?>
-        <?= $this->render('row', ['columns' => $value, 'widgets' => $widgets[$key]]) ?>
+    <?php foreach ($layouts[$selectedLayout] as $key => $value) : ?>
+        <?= $this->render('row', ['columns' => $value, 'widgets' => $widgets[$key], 'rowId' => $key]) ?>
     <?php endforeach; ?>
 </div>
 
-<?= $this->render('settings', compact('layoutId')) ?>
+<?= $this->render('settings') ?>
