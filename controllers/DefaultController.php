@@ -31,7 +31,7 @@ class DefaultController extends BaseController
                             'set-setting' => ['post'],
                         ],
                     ],
-                        ], parent::behaviors());
+                ], parent::behaviors());
     }
 
     public function actionIndex()
@@ -56,7 +56,7 @@ class DefaultController extends BaseController
                 }
             }
         }
-        
+
         throw new \yii\web\BadRequestHttpException('Invalid Widget Id!');
     }
 
@@ -110,10 +110,27 @@ class DefaultController extends BaseController
     {
         return $this->render('elements');
     }
+    public function actionTest()
+    {
+        $result = \yeesoft\page\models\Page::find()
+                ->alias('p')
+                //->from(['post ps', 'page p'])
+                
+                ->where(['p.status' => 1])
+                ->applyFilters()
+                ->asArray()->all();
+        
+        return $this->render('test', compact('result'));
+    }
 
     public function actionElements2()
     {
         return $this->render('elements2');
+    }
+    
+    public function actionCheckbox()
+    {
+        return $this->render('checkbox');
     }
 
     /**
